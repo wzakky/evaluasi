@@ -43,13 +43,12 @@ export default function App() {
       })
   }
   return (
-    <div className='container mx-4 px-4'>
-      Trello App
-      <form onSubmit={handleSubmit}>
-        <input type='text' name='submit' />
+    <div className='container p-3 space-y-4 my-1'>
+      <form onSubmit={handleSubmit} className='p-2 grid grid-cols-2 gap-4 border-2 rounded-lg' >
+        <input type='text' name='submit' placeholder='What Task?' />
         <button type='submit'>Add</button>
       </form>
-      <div>
+      <div className='grid sm:grid-cols-2 md:grid-cols-3 gap-3 items-center' >
         {data.map((task, index) => {
           return <div key={index} className='row'>
             {edit === index ?
