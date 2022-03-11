@@ -1,18 +1,12 @@
 {
   "trello": [
     {
-      "id": 1,
-      "name": "budi"
+      "name": "budi",
+      "id": 1
     },
     {
-      "name": "a",
-      "list": [],
+      "name": "andi doremi",
       "id": 2
-    },
-    {
-      "name": "",
-      "list": [],
-      "id": 3
     }
   ]
 }

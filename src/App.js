@@ -1,5 +1,5 @@
-import axios from 'axios'
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 
 export default function App() {
@@ -19,23 +19,53 @@ export default function App() {
   const handleSubmit = (e) => {
     e.preventDefault()
     const value = e.target.submit.value
-    axios.post('http://localhost:3001/trello', { name: value, list: [] }).then(() => {
-    getData()
-    e.target.submit.value = ''
-    })
+    axios.post('http://localhost:3001/trello', { name: value })
+      .then(() => {
+        e.target.submit.value = ''
+        getData()
+
+      })
   }
 
-  
-  return (
-    <div className="p-5">
-        <h1 className='text-center'>
-          Trello App
-        </h1>
-        <form onSubmit={handleSubmit}>
-          <input name='submit'></input>
-          <button type='submit'>Add</button>
-        </form>
-    </div>
-  );
-}
+  const handleEdit = (e) => {
+    e.preventDefault()
+    axios.patch(`http://localhost:3001/trello/${data[edit].id}`, { name: e.target.task.value })
+      .then(() => {
+        getData()
+        setEdit(null)
+      })
+  }
 
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:3001/trello/${id}`)
+      .then(() => {
+        getData()
+      })
+  }
+  return (
+    <div className='container mx-4 px-4'>
+      Trello App
+      <form onSubmit={handleSubmit}>
+        <input type='text' name='submit' />
+        <button type='submit'>Add</button>
+      </form>
+      <div>
+        {data.map((task, index) => {
+          return <div key={index} className='row'>
+            {edit === index ?
+              <form className='col' onSubmit={(e) => handleEdit(e)}>
+                <input name='task' defaultValue={task.name} />
+                <button>Save</button>
+              </form>
+              : task.name
+            }
+            <div className='col' >
+              <button className='mx-3' onClick={() => setEdit(index === edit ? null : index)}>edit</button>
+              <button onClick={() => handleDelete(task.id)}>delete</button>
+            </div>
+          </div>
+        })}
+      </div>
+    </div>
+  )
+} 
